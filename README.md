@@ -9,6 +9,7 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/Usagi53Q/fx-steam-launcher-zh/releases"><img src="https://img.shields.io/github/v/release/Usagi53Q/fx-steam-launcher-zh?label=版本&color=brightgreen" alt="最新版本" /></a>
   <a href="#-一键安装"><img src="https://img.shields.io/badge/安装-一键脚本-brightgreen.svg" alt="一键安装" /></a>
   <a href="#-支持环境"><img src="https://img.shields.io/badge/平台-macOS%20(Apple%20Silicon)-blue.svg" alt="macOS" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/许可证-MIT-green.svg" alt="许可证" /></a>
