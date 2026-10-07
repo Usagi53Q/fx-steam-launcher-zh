@@ -39,7 +39,7 @@
 ### 方式 1：远程一键安装（推荐）
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/fx-steam-launcher-zh/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Usagi53Q/fx-steam-launcher-zh/main/install.sh | bash
 ```
 
 > 💡 **提示**：安装完成后，打开 `/Applications/FX Steam Launcher.app`，在运行时按下快捷键 **`⌘ ,`（Command + 逗号）** 即可打开全中文设置面板。
@@ -50,7 +50,7 @@ curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/fx-steam-launcher-zh/
 
 ```bash
 # 1. 克隆本仓库
-git clone https://github.com/YOUR_USERNAME/fx-steam-launcher-zh.git
+git clone https://github.com/Usagi53Q/fx-steam-launcher-zh.git
 cd fx-steam-launcher-zh
 
 # 2. 运行一键安装脚本
@@ -65,7 +65,7 @@ cd fx-steam-launcher-zh
 
 ```bash
 # 若使用远程命令一键还原：
-curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/fx-steam-launcher-zh/main/uninstall.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Usagi53Q/fx-steam-launcher-zh/main/uninstall.sh | bash
 
 # 或者在克隆的仓库目录中执行：
 ./uninstall.sh

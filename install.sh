@@ -21,8 +21,8 @@ TARGET_BIN="${TARGET_DIR}/steamac-vm"
 BACKUP_BIN="${TARGET_DIR}/steamac-vm.orig"
 
 # GitHub 仓库配置（远程一键安装时使用）
-GITHUB_REPO="${FX_ZH_REPO:-https://github.com/YOUR_USERNAME/fx-steam-launcher-zh}"
-REMOTE_RAW_URL="${FX_ZH_RAW_URL:-https://raw.githubusercontent.com/YOUR_USERNAME/fx-steam-launcher-zh/main}"
+GITHUB_REPO="${FX_ZH_REPO:-https://github.com/Usagi53Q/fx-steam-launcher-zh}"
+REMOTE_RAW_URL="${FX_ZH_RAW_URL:-https://raw.githubusercontent.com/Usagi53Q/fx-steam-launcher-zh/main}"
 
 echo -e "${CYAN}${BOLD}"
 echo "╔══════════════════════════════════════════════════════════════════╗"
