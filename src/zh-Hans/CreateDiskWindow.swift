@@ -1,0 +1,263 @@
+import AppKit
+import SwiftUI
+
+/// "Create SteamOS Disk" window (first-run sheet and Settings > Advanced "Create New Disk…"):
+/// branch, home size, location, password and the Steam client (a launcher setting, applies to
+/// every start), Valve's license (SteamOSLicense: Create stays disabled until it is accepted),
+/// then DiskCreator with progress, cancel and resume (a cancelled or failed run keeps the
+/// downloaded chunks; Create again continues from there).
+final class CreateDiskModel: ObservableObject {
+    @Published var path: String
+    @Published var branch: String
+    @Published var homeGiB = DiskLayout.defaultHomeGiB
+    /// Empty = no password (release default; Settings > Advanced "Enable SSH" sets one later).
+    @Published var password = AppBundle.releaseDefaults ? "" : "steamos"
+    @Published private(set) var running = false
+    @Published private(set) var status: DiskCreator.Status?
+    @Published private(set) var error: String?
+    @Published private(set) var interrupted = false
+    @Published private(set) var result: DiskCreator.Result?
+    /// The checkbox; starts checked once the current agreement was accepted (SteamOSLicense).
+    @Published var licenseAccepted: Bool
+    let settings: LauncherSettings
+    var onFinish: ((DiskCreator.Result) -> Void)?
+    private var creator: DiskCreator?
+
+    init(settings: LauncherSettings) {
+        self.settings = settings
+        branch = settings.steamosBranch
+        licenseAccepted = SteamOSLicense.acceptedAt(settings) != nil
+        path = CreateDiskModel.freePath(DiskCreator.defaultPath)
+    }
+
+    /// `steamos.img`, else `steamos-2.img`, … (an existing disk is never overwritten).
+    static func freePath(_ p: String) -> String {
+        let fm = FileManager.default
+        guard fm.fileExists(atPath: p) else { return p }
+        let base = (p as NSString).deletingPathExtension, ext = (p as NSString).pathExtension
+        for i in 2... where !fm.fileExists(atPath: "\(base)-\(i).\(ext)") { return "\(base)-\(i).\(ext)" }
+        return p
+    }
+
+    var pathExists: Bool { FileManager.default.fileExists(atPath: path) }
+
+    var freeSpace: String {
+        var dir = (path as NSString).deletingLastPathComponent
+        while !FileManager.default.fileExists(atPath: dir) && dir != "/" { dir = (dir as NSString).deletingLastPathComponent }
+        guard let attrs = try? FileManager.default.attributesOfFileSystem(forPath: dir),
+              let free = (attrs[.systemFreeSize] as? NSNumber)?.int64Value else { return "" }
+        return String(format: "该卷剩余空间为 %.0f GB；需约 14 GB 磁盘空间（稀疏文件分配）及约 6 GB 临时下载缓存。",
+                      Double(free) / 1e9)
+    }
+
+    func start() {
+        guard !running, licenseAccepted else { return }
+        SteamOSLicense.accept(settings, via: "Create SteamOS Disk window")
+        settings.steamosBranch = branch
+        error = nil
+        interrupted = false
+        running = true
+        let c = DiskCreator()
+        creator = c
+        c.onStatus = { [weak self] s in DispatchQueue.main.async { self?.status = s } }
+        let request = DiskCreator.Request(path: path, branch: branch, homeGiB: homeGiB,
+                                          password: password.isEmpty ? nil : password)
+        log("create-disk (UI): \(request.path) branch \(request.branch) home \(request.homeGiB) GiB")
+        Thread {
+            let outcome: Swift.Result<DiskCreator.Result, Error>
+            do { outcome = .success(try c.run(request)) } catch { outcome = .failure(error) }
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                self.running = false
+                self.creator = nil
+                switch outcome {
+                case .success(let r):
+                    log("create-disk (UI): done: \(r.path) = SteamOS \(r.buildID)")
+                    self.result = r
+                    self.onFinish?(r)
+                case .failure(let e as DiskCreator.Cancelled):
+                    log("create-disk (UI): \(e)")
+                    self.interrupted = true
+                case .failure(let e):
+                    log("create-disk (UI): error: \(e)")
+                    CrashReporting.diskCreationFailed(e, branch: request.branch)
+                    self.error = NetworkFailure.message(e, server: .valve)
+                    self.interrupted = true
+                }
+            }
+        }.start()
+    }
+
+    func cancel() { creator?.cancel() }
+}
+
+private struct CreateDiskView: View {
+    @ObservedObject var model: CreateDiskModel
+    let close: () -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Form {
+                Section {
+                    Text("从 Valve 官方下载经过签名的 SteamOS 镜像包（约 4.5 GB 数据），校验 Valve 官方签名与镜像哈希完整性，并生成全新虚拟磁盘。首次启动时将在虚拟机内部自动完成系统部署。")
+                        .font(.callout).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+                }
+                Section {
+                    Picker("SteamOS 分支通道", selection: $model.branch) {
+                        ForEach(DiskCreator.branches, id: \.self) { Text($0).tag($0) }
+                    }
+                    Stepper(value: $model.homeGiB, in: 16...2048, step: 16) {
+                        HStack {
+                            Text("用户主分区 (游戏空间，稀疏动态扩展)")
+                            Spacer()
+                            Text("\(model.homeGiB) GB").monospacedDigit()
+                        }
+                    }
+                    VStack(alignment: .leading, spacing: 4) {
+                        HStack {
+                            Text("存储位置")
+                            Spacer()
+                            Text((model.path as NSString).abbreviatingWithTildeInPath)
+                                .lineLimit(1).truncationMode(.middle).foregroundStyle(model.pathExists ? Color.red : Color.secondary)
+                            Button("选择…") { choose() }
+                        }
+                        Text(model.pathExists ? "A file with this name exists; it is never overwritten. Choose another name."
+                             : model.freeSpace)
+                            .font(.caption).foregroundStyle(model.pathExists ? Color.red : Color.secondary)
+                    }
+                    HStack {
+                        Text("steamos 用户密码 (可选)")
+                        Spacer()
+                        SecureField("无密码", text: $model.password).frame(width: 160)
+                    }
+                }
+                .disabled(model.running)
+                Section {
+                    SteamClientPicker(settings: model.settings)
+                }
+                .disabled(model.running)
+                Section {
+                    CrashReportsToggle(settings: model.settings, checkbox: true)
+                }
+                Section {
+                    Toggle(isOn: $model.licenseAccepted) {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("我已阅读并接受 Valve 的 SteamOS 许可协议与 Steam 订户协议")
+                            Text(SteamOSLicense.summary)
+                                .font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+                            HStack(spacing: 12) {
+                                Link("SteamOS 最终用户许可协议", destination: SteamOSLicense.eulaURL)
+                                Link("Steam 订户协议", destination: SteamOSLicense.ssaURL)
+                            }
+                            .font(.caption)
+                        }
+                    }
+                    .toggleStyle(.checkbox)
+                }
+                .disabled(model.running || model.result != nil)
+                if model.running || model.status != nil || model.error != nil {
+                    Section {
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text(model.error != nil ? "创建失败" : model.interrupted ? "已停止 — 再次点击创建可断点续传"
+                                 : model.status?.title ?? "正在启动…")
+                                .font(.headline)
+                            ProgressView(value: model.status?.fraction ?? 0)
+                            Text(model.error ?? model.status?.detail ?? "")
+                                .font(.caption).foregroundStyle(model.error != nil ? Color.red : Color.secondary)
+                                .fixedSize(horizontal: false, vertical: true).textSelection(.enabled)
+                        }
+                    }
+                }
+            }
+            .formStyle(.grouped)
+            HStack {
+                Spacer()
+                if model.running {
+                    Button("停止") { model.cancel() }
+                } else {
+                    Button("取消") { close() }.keyboardShortcut(.cancelAction)
+                    Button(model.interrupted ? "继续创建" : "创建磁盘") { model.start() }
+                        .keyboardShortcut(.defaultAction)
+                        .disabled(model.pathExists || model.result != nil || !model.licenseAccepted)
+                }
+            }
+            .padding([.horizontal, .bottom], 20)
+        }
+        .frame(width: 560, height: 740)
+    }
+
+    private func choose() {
+        let panel = NSSavePanel()
+        panel.title = "选择新 SteamOS 磁盘的保存位置"
+        panel.nameFieldStringValue = (model.path as NSString).lastPathComponent
+        panel.directoryURL = URL(fileURLWithPath: (model.path as NSString).deletingLastPathComponent)
+        panel.canCreateDirectories = true
+        if panel.runModal() == .OK, let url = panel.url {
+            // NSSavePanel asked about replacing; DiskCreator never replaces: pick a free name instead.
+            model.path = CreateDiskModel.freePath(url.path)
+        }
+    }
+}
+
+final class CreateDiskWindowController: NSObject, NSWindowDelegate {
+    let window: NSWindow
+    let model: CreateDiskModel
+    private var modal = false
+    private static var current: CreateDiskWindowController?
+    /// The non-modal window (Settings > Advanced), for --selftest-settings captures.
+    static var visibleWindow: NSWindow? { current?.window }
+
+    init(settings: LauncherSettings) {
+        model = CreateDiskModel(settings: settings)
+        window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 560, height: 420),
+                          styleMask: [.titled, .closable], backing: .buffered, defer: false)
+        super.init()
+        window.title = "新建 SteamOS 磁盘"
+        window.isReleasedWhenClosed = false
+        window.delegate = self
+        window.contentView = NSHostingView(rootView: CreateDiskView(model: model) { [weak self] in self?.window.performClose(nil) })
+    }
+
+    /// First run: blocks until the disk exists (its path) or the user closes the window (nil).
+    static func runModal(settings: LauncherSettings) -> String? {
+        let c = CreateDiskWindowController(settings: settings)
+        c.modal = true
+        c.model.onFinish = { _ in NSApp.stopModal(withCode: .OK) }
+        c.window.center()
+        let code = NSApp.runModal(for: c.window)
+        c.window.orderOut(nil)
+        return code == .OK ? c.model.result?.path : nil
+    }
+
+    /// Settings > Advanced: the new disk becomes the configured disk image (next start).
+    static func show(settings: LauncherSettings) {
+        if let c = current {
+            c.window.makeKeyAndOrderFront(nil)
+            return
+        }
+        let c = CreateDiskWindowController(settings: settings)
+        c.model.onFinish = { r in
+            settings.diskImage = r.path
+            c.window.close()
+        }
+        current = c
+        c.window.center()
+        c.window.makeKeyAndOrderFront(nil)
+    }
+
+    func windowShouldClose(_ sender: NSWindow) -> Bool {
+        guard model.running else { return true }
+        let alert = NSAlert()
+        alert.messageText = "确定要停止创建磁盘吗？"
+        alert.informativeText = "已下载的数据将被保留；再次创建时将自动断点续传。"
+        alert.addButton(withTitle: "停止")
+        alert.addButton(withTitle: "继续")
+        if alert.runModal() == .alertFirstButtonReturn { model.cancel() }
+        return false
+    }
+
+    func windowWillClose(_ notification: Notification) {
+        if modal { NSApp.stopModal(withCode: .cancel) }
+        if CreateDiskWindowController.current === self { CreateDiskWindowController.current = nil }
+    }
+}

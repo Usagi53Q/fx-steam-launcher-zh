@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# FX Steam Launcher 简体中文汉化补丁 一键安装脚本
-# 支持本地运行与 curl 远程一键安装
+# FX Steam Launcher 中文汉化补丁 一键安装脚本
+# 支持：简体中文 (Simplified Chinese) & 繁體中文 (Traditional Chinese)
+# 支持：本地运行与 curl 远程一键安装
 # ==============================================================================
 
 set -e
@@ -26,10 +27,63 @@ REMOTE_RAW_URL="${FX_ZH_RAW_URL:-https://raw.githubusercontent.com/Usagi53Q/fx-s
 
 echo -e "${CYAN}${BOLD}"
 echo "╔══════════════════════════════════════════════════════════════════╗"
-echo "║             FX Steam Launcher 简体中文汉化补丁安装程序           ║"
+echo "║             FX Steam Launcher 中文汉化补丁安装程序               ║"
+echo "║      支持：简体中文 (zh-Hans)  /  繁體中文 (zh-Hant)             ║"
 echo "║       Apple Silicon (M1/M2/M3/M4) 原生 SteamOS 虚拟机启动器      ║"
 echo "╚══════════════════════════════════════════════════════════════════╝"
 echo -e "${RESET}"
+
+# 解析命令行参数或环境变量
+SELECTED_LANG=""
+for arg in "$@"; do
+    case "$arg" in
+        --zh-hant|--tc|--hant|-t)
+            SELECTED_LANG="zh-Hant"
+            ;;
+        --zh-hans|--sc|--hans|-s)
+            SELECTED_LANG="zh-Hans"
+            ;;
+    esac
+done
+
+if [[ -z "$SELECTED_LANG" && -n "$FX_LANG" ]]; then
+    case "$FX_LANG" in
+        *hant*|*tc*|*traditional*|*繁*)
+            SELECTED_LANG="zh-Hant"
+            ;;
+        *hans*|*sc*|*simplified*|*简*)
+            SELECTED_LANG="zh-Hans"
+            ;;
+    esac
+fi
+
+# 交互式语言选择（如未指定参数）
+if [[ -z "$SELECTED_LANG" ]]; then
+    if [[ -r /dev/tty ]]; then
+        echo -e "${YELLOW}请选择要安装的中文语言版本 / 請選擇語言版本：${RESET}"
+        echo -e "  ${BOLD}1)${RESET} 简体中文 (Simplified Chinese) [默认/預設]"
+        echo -e "  ${BOLD}2)${RESET} 繁體中文 (Traditional Chinese)"
+        echo ""
+        read -r -p "请输入选项 [1/2，回车默认 1]: " USER_CHOICE < /dev/tty || USER_CHOICE="1"
+        case "$USER_CHOICE" in
+            2|hant|tc)
+                SELECTED_LANG="zh-Hant"
+                ;;
+            *)
+                SELECTED_LANG="zh-Hans"
+                ;;
+        esac
+    else
+        SELECTED_LANG="zh-Hans"
+    fi
+fi
+
+if [[ "$SELECTED_LANG" == "zh-Hant" ]]; then
+    LANG_NAME="繁體中文 (Traditional Chinese)"
+else
+    LANG_NAME="简体中文 (Simplified Chinese)"
+fi
+echo -e "${GREEN}✔ 已选择安装版本：${BOLD}${LANG_NAME}${RESET}\n"
 
 # 1. 检查操作系统与芯片架构
 echo -e "${BLUE}▶ 步骤 1/5：正在检测运行环境...${RESET}"
@@ -86,7 +140,7 @@ else
 fi
 
 # 5. 获取并安装汉化补丁二进制
-echo -e "${BLUE}▶ 步骤 5/5：正在安装简体中文汉化文件...${RESET}"
+echo -e "${BLUE}▶ 步骤 5/5：正在安装 ${LANG_NAME} 汉化核心...${RESET}"
 
 # 获取脚本自身所在绝对路径
 SCRIPT_DIR=""
@@ -98,22 +152,36 @@ TEMP_DIR=""
 SOURCE_BIN=""
 ENTITLEMENTS_FILE=""
 
-# 优先检查本地是否存在 bin/steamac-vm
-if [[ -n "$SCRIPT_DIR" ]] && [[ -f "${SCRIPT_DIR}/bin/steamac-vm" ]]; then
+# 优先检查本地是否存在对应语言的二进制
+if [[ -n "$SCRIPT_DIR" ]] && [[ -f "${SCRIPT_DIR}/bin/${SELECTED_LANG}/steamac-vm" ]]; then
+    echo -e "检测到本地文件，正在应用本地 [${SELECTED_LANG}] 汉化资源..."
+    SOURCE_BIN="${SCRIPT_DIR}/bin/${SELECTED_LANG}/steamac-vm"
+    ENTITLEMENTS_FILE="${SCRIPT_DIR}/entitlements.plist"
+elif [[ -n "$SCRIPT_DIR" ]] && [[ "$SELECTED_LANG" == "zh-Hans" ]] && [[ -f "${SCRIPT_DIR}/bin/steamac-vm" ]]; then
     echo -e "检测到本地文件，正在应用本地汉化资源..."
     SOURCE_BIN="${SCRIPT_DIR}/bin/steamac-vm"
     ENTITLEMENTS_FILE="${SCRIPT_DIR}/entitlements.plist"
 else
-    echo -e "正在从云端下载预编译的已签名中文二进制..."
+    echo -e "正在从云端下载预编译的已签名 [${SELECTED_LANG}] 核心二进制..."
     TEMP_DIR="$(mktemp -d /tmp/steamac-zh-install.XXXXXX)"
     SOURCE_BIN="${TEMP_DIR}/steamac-vm"
     ENTITLEMENTS_FILE="${TEMP_DIR}/entitlements.plist"
 
-    curl -fL --progress-bar "${REMOTE_RAW_URL}/bin/steamac-vm" -o "$SOURCE_BIN" || {
-        echo -e "${RED}✘ 下载汉化二进制失败，请检查网络连接或仓库地址设置。${RESET}"
-        rm -rf "$TEMP_DIR"
-        exit 1
-    }
+    # 尝试下载对应语言目录，兼容回退
+    DOWNLOAD_URL="${REMOTE_RAW_URL}/bin/${SELECTED_LANG}/steamac-vm"
+    if ! curl -fL --progress-bar "$DOWNLOAD_URL" -o "$SOURCE_BIN"; then
+        if [[ "$SELECTED_LANG" == "zh-Hans" ]]; then
+            curl -fL --progress-bar "${REMOTE_RAW_URL}/bin/steamac-vm" -o "$SOURCE_BIN" || {
+                echo -e "${RED}✘ 下载汉化二进制失败，请检查网络连接或仓库地址设置。${RESET}"
+                rm -rf "$TEMP_DIR"
+                exit 1
+            }
+        else
+            echo -e "${RED}✘ 下载繁體中文二进制失败，请检查网络连接。${RESET}"
+            rm -rf "$TEMP_DIR"
+            exit 1
+        fi
+    fi
 
     curl -fsSL "${REMOTE_RAW_URL}/entitlements.plist" -o "$ENTITLEMENTS_FILE" || true
 fi
@@ -146,9 +214,9 @@ if [[ -n "$TEMP_DIR" ]] && [[ -d "$TEMP_DIR" ]]; then
     rm -rf "$TEMP_DIR"
 fi
 
-echo -e "\n${GREEN}${BOLD}🎉 恭喜！FX Steam Launcher 简体中文汉化补丁安装成功！${RESET}\n"
+echo -e "\n${GREEN}${BOLD}🎉 恭喜！FX Steam Launcher ${LANG_NAME} 汉化补丁安装成功！${RESET}\n"
 echo -e "使用说明："
 echo -e "  1. 打开 ${BOLD}访达 › 应用程序 › FX Steam Launcher${RESET}"
 echo -e "  2. 在启动器运行时按下快捷键 ${CYAN}${BOLD}⌘ , (Command + 逗号)${RESET} 即可进入全中文设置面板"
-echo -e "  3. 顶部菜单栏、各项提示向导及手柄/显示控制已全部汉化"
-echo -e "  4. 若需还原原版英文，只需在终端运行本项目提供的 ${YELLOW}uninstall.sh${RESET} 即可一键恢复\n"
+echo -e "  3. 顶部菜单栏、各项提示向导及控制器/显示控制已全部汉化"
+echo -e "  4. 若需还原官方原版英文，只需在终端运行本项目提供的 ${YELLOW}uninstall.sh${RESET} 即可一键恢复\n"
