@@ -1,0 +1,908 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>"Still working" card over the picture after 2 s without GPU work from SteamOS (loading, shader compiles).</key>
+	<string>SteamOS 連續 2 秒沒有 GPU 活動時（加載或編譯着色器），在畫面上顯示“仍在工作”提示卡片。</string>
+	<key>%@ (default)</key>
+	<string>%@（預設）</string>
+	<key>%@ (not connected)</key>
+	<string>%@（未連接）</string>
+	<key>%@ (not found)</key>
+	<string>%@（未找到）</string>
+	<key>%@ / %@ MB · %@ MB/s</key>
+	<string>%@ / %@ MB · %@ MB/s</string>
+	<key>%@ GB free there; about 14 GB are needed (the disk is sparse) plus ~6 GB of download cache.</key>
+	<string>該位置有 %@ GB 可用空間；約需 14 GB（磁碟爲稀疏文件），另需約 6 GB 下載緩存空間。</string>
+	<key>%@ MB · %@ MB/s</key>
+	<string>%@ MB · %@ MB/s</string>
+	<key>%@ already exists (never overwritten; delete it or choose another path)</key>
+	<string>%@ 已存在（不會覆蓋；請刪除該文件或選擇其他路徑）</string>
+	<key>%@ is on a FAT32/MS-DOS volume, which cannot store files of 4 GiB or larger. The SteamOS disk and its 10 GiB rootfs exceed this limit: choose an APFS, Mac OS Extended, or exFAT volume</key>
+	<string>%@ 位於 FAT32/MS-DOS 宗捲上，無法存儲大小達到或超過 4 GiB 的文件。SteamOS 磁碟及其 10 GiB rootfs 均超出此限制：請選擇 APFS、Mac OS Extended 或 exFAT 宗卷</string>
+	<key>%@ is on a read-only volume: choose a writable location for the SteamOS disk</key>
+	<string>%@ 位於只讀宗捲上：請爲 SteamOS 磁碟選擇可寫入的位置</string>
+	<key>%@ of memory in use</key>
+	<string>已使用 %@ 記憶體</string>
+	<key>%@ × %@ (%@) — larger than this screen</key>
+	<string>%@ × %@（%@）— 超出當前螢幕尺寸</string>
+	<key>%@ — mouse captured, Ctrl+Option releases</key>
+	<string>%@ — 滑鼠已捕獲，按 Ctrl+Option 釋放</string>
+	<key>%@%% · %@ GB data · %@ MB/s</key>
+	<string>%@%% · %@ GB 數據 · %@ MB/s</string>
+	<key>%@%% · %@ of %@ GB · %@ MB/s</key>
+	<string>%@%% · %@ / %@ GB · %@ MB/s</string>
+	<key>%@: not a SteamOS disk with home as its last partition</key>
+	<string>%@：不是以 home 爲最後一個分區的 SteamOS 磁碟</string>
+	<key>%lld GB</key>
+	<string>%lld GB</string>
+	<key>%lld Hz</key>
+	<string>%lld Hz</string>
+	<key>%lld MiB VM RAM + %lld MiB GPU budget + %lld MiB reserved for macOS on this %lld GB Mac. Too little GPU memory remains: lower VM memory or graphics settings to avoid swapping, out-of-memory errors or the VM being killed.</key>
+	<string>此 Mac 配備 %4$lld GB 記憶體：虛擬機記憶體 %1$lld MiB + GPU 預算 %2$lld MiB + macOS 預留記憶體 %3$lld MiB。剩餘 GPU 記憶體不足：請減少虛擬機記憶體或降低圖形設定，以免發生記憶體交換、記憶體不足錯誤或虛擬機被終止。</string>
+	<key>A few errors: guest GPU context lost, shader pipeline compile failures (with an excerpt of the failing Metal shader source), libkrun panics, failed disk creation or first-start setup, VM stopped unexpectedly or killed (with the Mac's memory use), SteamOS not responding.</key>
+	<string>部分錯誤：客戶機 GPU 上下文丟失、着色器管線編譯失敗（附出錯的 Metal 着色器源代碼片段）、libkrun 嚴重錯誤、磁碟創建或首次啓動設定失敗、虛擬機意外停止或被終止（附 Mac 記憶體使用情況）、SteamOS 無響應。</string>
+	<key>A few more words, please (at least 10 characters).</key>
+	<string>請再多寫幾句（至少 10 個字符）。</string>
+	<key>A file with this name exists; it is never overwritten. Choose another name.</key>
+	<string>同名文件已存在，且不會被覆蓋。請選擇其他名稱。</string>
+	<key>A random install ID (not linked to you) to count affected Macs.</key>
+	<string>隨機生成的安裝 ID（不關聯你的身份），用於統計受影響的 Mac 數量。</string>
+	<key>Advanced</key>
+	<string>進階</string>
+	<key>Always included: app, macOS and library versions, Mac model, GPU, disk sizes and the launcher settings (never passwords or Keychain items).</key>
+	<string>始終包含：應用、macOS 和庫版本、Mac 機型、GPU、磁碟大小和啓動器設定（絕不含密碼或鑰匙串內容）。</string>
+	<key>App ID %@</key>
+	<string>App ID %@</string>
+	<key>Appears in SteamOS as</key>
+	<string>在 SteamOS 中顯示爲</string>
+	<key>Apple's MetalFX upscaler sharpens the guest picture when the window has more pixels than the guest (2× on Retina screens, scaled or fullscreen windows) instead of plain scaling.</key>
+	<string>視窗的像素數量多於客戶機時（如 Retina 螢幕上的 2 倍像素、縮放或全螢幕視窗），使用 Apple 的 MetalFX 超採樣技術銳化客戶機畫面，而非簡單縮放。</string>
+	<key>Apple's frame-rate overlay in the top-right corner of the window: FPS, frame interval, GPU time, memory (Ctrl+Cmd+P, View menu).</key>
+	<string>在視窗右上角顯示 Apple 的幀率疊加層：FPS、幀間隔、GPU 時間和記憶體（Ctrl+Cmd+P，“顯示”菜單）。</string>
+	<key>Asking SteamOS for its logs (up to %lld s)…</key>
+	<string>正在獲取 SteamOS 日誌（最多等待 %lld 秒）…</string>
+	<key>Asks GitHub (api.github.com) for the newest release, at most every 6 hours; only the app version is sent.</key>
+	<string>最多每 6 小時向 GitHub（api.github.com）查詢一次最新版本；僅發送應用版本號。</string>
+	<key>Auto</key>
+	<string>自動</string>
+	<key>Auto (from the screen)</key>
+	<string>自動（根據螢幕）</string>
+	<key>Auto-Capture Mouse in Games</key>
+	<string>在遊戲中自動捕獲滑鼠</string>
+	<key>Automatic</key>
+	<string>自動</string>
+	<key>Automatic (%lld GB for this Mac)</key>
+	<string>自動（此 Mac 爲 %lld GB）</string>
+	<key>Automatic (%lld for this Mac)</key>
+	<string>自動（此 Mac 爲 %lld）</string>
+	<key>Automatic: half of this Mac's RAM (4 to 16 GB). The Mac's GPU memory comes from the same RAM, so the rest stays with macOS and the games' graphics.</key>
+	<string>自動：此 Mac 記憶體的一半（4 至 16 GB）。Mac 的 GPU 與系統共用記憶體，其餘記憶體留給 macOS 和遊戲圖形。</string>
+	<key>Automatic: one per performance core of this Mac (2 to 8).</key>
+	<string>自動：此 Mac 的每個效能核心分配一個（2 至 8 個）。</string>
+	<key>Booting Linux kernel…</key>
+	<string>正在啓動 Linux 內核…</string>
+	<key>Buffer</key>
+	<string>緩衝區</string>
+	<key>Button glyphs and layout in Steam. Automatic: the same kind as the controller that drives it (DualSense, DualShock 4, else Xbox 360). Buttons, sticks, triggers and rumble (no touchpad, gyro or lightbar unless a DualSense is passed through).</key>
+	<string>Steam 中的按鍵圖標和佈局。自動：與控制它的控制器類型一致（DualSense、DualShock 4，其他類型爲 Xbox 360）。支持按鍵、搖桿、扳機和振動（除非直通 DualSense，否則不支持觸摸板、陀螺儀或光條）。</string>
+	<key>Can't reach Valve's servers securely. A VPN, proxy, or network filter may be interfering; try without it or on another network. Technical details are in the launcher log.</key>
+	<string>無法安全連接到 Valve 的服務器。VPN、代理或網絡過濾器可能造成幹擾；請嘗試停用它們或更換網絡。技術詳情見啓動器日誌。</string>
+	<key>Can't reach Valve's servers. Check your internet connection. A VPN, proxy, or network filter may be interfering; try without it or on another network. Technical details are in the launcher log.</key>
+	<string>無法連接到 Valve 的服務器。請檢查互聯網連接。VPN、代理或網絡過濾器可能造成幹擾；請嘗試停用它們或更換網絡。技術詳情見啓動器日誌。</string>
+	<key>Can't reach the update server (GitHub) securely. A VPN, proxy, or network filter may be interfering; try without it or on another network. Technical details are in the launcher log.</key>
+	<string>無法安全連接到更新服務器（GitHub）。VPN、代理或網絡過濾器可能造成幹擾；請嘗試停用它們或更換網絡。技術詳情見啓動器日誌。</string>
+	<key>Can't reach the update server (GitHub). Check your internet connection. A VPN, proxy, or network filter may be interfering; try without it or on another network. Technical details are in the launcher log.</key>
+	<string>無法連接到更新服務器（GitHub）。請檢查互聯網連接。VPN、代理或網絡過濾器可能造成幹擾；請嘗試停用它們或更換網絡。技術詳情見啓動器日誌。</string>
+	<key>Cancel</key>
+	<string>取消</string>
+	<key>Cannot create the report folder: %@</key>
+	<string>無法創建報告文件夾：%@</string>
+	<key>Capture / Release Mouse Now (Ctrl+Cmd+G)</key>
+	<string>立即捕獲或釋放滑鼠（Ctrl+Cmd+G）</string>
+	<key>Capture Mouse in This Game</key>
+	<string>在此遊戲中捕獲滑鼠</string>
+	<key>Capture Mouse in This Game (%@)</key>
+	<string>在此遊戲中捕獲滑鼠（%@）</string>
+	<key>Capture the mouse in games</key>
+	<string>在遊戲中捕獲滑鼠</string>
+	<key>Check for Updates…</key>
+	<string>檢查更新…</string>
+	<key>Check for updates at startup</key>
+	<string>啓動時檢查更新</string>
+	<key>Checking for Steam updates</key>
+	<string>正在檢查 Steam 更新</string>
+	<key>Checking for updates…</key>
+	<string>正在檢查更新…</string>
+	<key>Choose a SteamOS disk image</key>
+	<string>選擇 SteamOS 磁碟映像</string>
+	<key>Choose…</key>
+	<string>選擇…</string>
+	<key>Click or press a key or controller button to wake it</key>
+	<string>點按、按任意鍵或控制器按鍵以喚醒</string>
+	<key>Click to resume</key>
+	<string>點按以繼續</string>
+	<key>Close</key>
+	<string>關閉</string>
+	<key>Collecting launcher logs…</key>
+	<string>正在收集啓動器日誌…</string>
+	<key>Collecting system information…</key>
+	<string>正在收集系統信息…</string>
+	<key>Command</key>
+	<string>命令</string>
+	<key>Connected controllers — live input test</key>
+	<string>已連接的控制器 — 實時輸入測試</string>
+	<key>Continue</key>
+	<string>繼續</string>
+	<key>Controller</key>
+	<string>控制器</string>
+	<key>Controller that drives it</key>
+	<string>控制它的控制器</string>
+	<key>Copy</key>
+	<string>拷貝</string>
+	<key>Couldn't check for updates</key>
+	<string>無法檢查更新</string>
+	<key>Crash reports and rare errors go to the FX Steam Launcher developers (Sentry). No personal data.</key>
+	<string>當機報告和偶發錯誤會發送給 FX Steam Launcher 開發者（Sentry）。不含個人數據。</string>
+	<key>Crash reports are off. Sending this report does not turn them on: only this report is sent.</key>
+	<string>當機報告已關閉。發送此報告不會將其打開：僅發送這一份報告。</string>
+	<key>Crash reports of the launcher and the VM process: crash reason, stack traces, loaded libraries.</key>
+	<string>啓動器和虛擬機進程的當機報告：當機原因、堆棧跟蹤、已加載的庫。</string>
+	<key>Create</key>
+	<string>創建</string>
+	<key>Create New Disk…</key>
+	<string>新增磁碟…</string>
+	<key>Create SteamOS Disk</key>
+	<string>創建 SteamOS 磁碟</string>
+	<key>Create a new one: the official SteamOS image is downloaded from Valve and verified (about 4.5 GB; the disk uses ~10 GB on your Mac at first). Or choose an existing image, which is used in place and never copied.</key>
+	<string>創建新磁碟：從 Valve 下載並驗證官方 SteamOS 映像（約 4.5 GB；磁碟起初在 Mac 上佔用約 10 GB）。也可選擇已有映像，直接在原位置使用，不會拷貝。</string>
+	<key>Ctrl+Option  (Ctrl+Cmd+G toggles)</key>
+	<string>Ctrl+Option  （Ctrl+Cmd+G 切換）</string>
+	<key>Custom</key>
+	<string>自定</string>
+	<key>Custom memory</key>
+	<string>自定記憶體</string>
+	<key>Custom size</key>
+	<string>自定尺寸</string>
+	<key>Custom vCPUs</key>
+	<string>自定 vCPU</string>
+	<key>Custom…</key>
+	<string>自定…</string>
+	<key>Cut</key>
+	<string>剪切</string>
+	<key>DPI: %lld</key>
+	<string>DPI：%lld</string>
+	<key>Default (Auto)</key>
+	<string>預設（自動）</string>
+	<key>Default (Off)</key>
+	<string>預設（關閉）</string>
+	<key>Default on this Mac.</key>
+	<string>此 Mac 上的預設選項。</string>
+	<key>Default window size</key>
+	<string>預設視窗大小</string>
+	<key>Default: %@</key>
+	<string>預設：%@</string>
+	<key>Default: none found</key>
+	<string>預設：未找到</string>
+	<key>Describe what went wrong and send it with the logs you choose to the developers (works with crash reports off, too).</key>
+	<string>描述出現的問題，並附上你選擇的日誌發送給開發者（即使關閉當機報告也可使用）。</string>
+	<key>Describe what went wrong. Your description, your email and the items checked below go to the FX Steam Launcher developers (sentry.fxgam.es).</key>
+	<string>描述出現的問題。你的描述、電子郵件地址和下方勾選的內容將發送給 FX Steam Launcher 開發者（sentry.fxgam.es）。</string>
+	<key>Disk image</key>
+	<string>磁碟映像</string>
+	<key>Display</key>
+	<string>顯示</string>
+	<key>Done</key>
+	<string>完成</string>
+	<key>Download</key>
+	<string>下載</string>
+	<key>Downloaded data is kept; creating the disk again continues from there.</key>
+	<string>已下載的數據會保留；再次創建磁碟時會從上次停止的位置繼續。</string>
+	<key>Downloading Steam update</key>
+	<string>正在下載 Steam 更新</string>
+	<key>Downloading SteamOS…</key>
+	<string>正在下載 SteamOS…</string>
+	<key>Downloading the SteamOS bundle…</key>
+	<string>正在下載 SteamOS 軟體包…</string>
+	<key>Downloads the official SteamOS image from Valve (signed bundle, ~4.5 GB of data), checks Valve's signature and the image checksum, and writes a new disk. The first start then finishes the setup inside the VM.</key>
+	<string>從 Valve 下載官方 SteamOS 映像（已簽名的軟體包，約 4.5 GB 數據），驗證 Valve 的簽名和映像校驗和，並寫入新磁碟。首次啓動時會在虛擬機內完成設定。</string>
+	<key>DualSense</key>
+	<string>DualSense</string>
+	<key>DualShock 4</key>
+	<string>DualShock 4</string>
+	<key>Edit</key>
+	<string>編輯</string>
+	<key>Email</key>
+	<string>電子郵件</string>
+	<key>Empty answer.</key>
+	<string>響應爲空。</string>
+	<key>Enable SSH</key>
+	<string>啟用 SSH</string>
+	<key>Enter a valid email address.</key>
+	<string>請輸入有效的電子郵件地址。</string>
+	<key>Every 5 s: guest flush and on-screen frame intervals, latency, dropped frames.</key>
+	<string>每 5 秒記錄：客戶機刷新和螢幕顯示的幀間隔、延遲、丟幀。</string>
+	<key>Extracting Steam update</key>
+	<string>正在解壓 Steam 更新</string>
+	<key>FX Steam Launcher %@ is available — you have %@</key>
+	<string>FX Steam Launcher %@ 已發佈 — 當前版本爲 %@</string>
+	<key>FX Steam Launcher %@ is the newest version available.</key>
+	<string>FX Steam Launcher %@ 已是最新版本。</string>
+	<key>FX Steam Launcher &gt; Check for Updates… checks at any time.</key>
+	<string>隨時可通過“FX Steam Launcher &gt; 檢查更新…”檢查更新。</string>
+	<key>FX Steam Launcher cannot start</key>
+	<string>FX Steam Launcher 無法啓動</string>
+	<key>FX Steam Launcher needs a SteamOS disk image (steamos.img, ~87 GB sparse).
+
+</key>
+	<string>FX Steam Launcher 需要 SteamOS 磁碟映像（steamos.img，約 87 GB 稀疏文件）。
+
+</string>
+	<key>FX Steam Launcher stopped unexpectedly</key>
+	<string>FX Steam Launcher 意外停止</string>
+	<key>FX Steam Launcher: SteamOS user steamos (disk %@)</key>
+	<string>FX Steam Launcher：SteamOS 用戶 steamos（磁碟 %@）</string>
+	<key>Failed</key>
+	<string>失敗</string>
+	<key>Finishing…</key>
+	<string>正在完成…</string>
+	<key>First connected</key>
+	<string>第一個已連接的控制器</string>
+	<key>Fit to screen (%@ × %@)</key>
+	<string>適應螢幕（%@ × %@）</string>
+	<key>Fixed DPI</key>
+	<string>固定 DPI</string>
+	<key>Fixed size (mm)</key>
+	<string>固定尺寸（mm）</string>
+	<key>For Nintendo-style button layouts.</key>
+	<string>適用於 Nintendo 風格的按鍵佈局。</string>
+	<key>Force Quit</key>
+	<string>強制結束</string>
+	<key>Forget this game</key>
+	<string>忘記此遊戲</string>
+	<key>Freezes the focused game (Steam, downloads and updates keep running). Online games may disconnect while paused.</key>
+	<string>凍結當前獲得焦點的遊戲（Steam、下載和更新會繼續運行）。在線遊戲在暫停期間可能斷開連接。</string>
+	<key>Full HD, 16:9</key>
+	<string>全高清，16:9</string>
+	<key>Full-window FX progress while SteamOS starts, restarts and shuts down. Off, or after a click: a small progress pill.</key>
+	<string>SteamOS 啓動、重啓和關機時，在整個視窗顯示 FX 進度界面。關閉此項或點按後，只顯示一個小進度指示條。</string>
+	<key>GPU budget: %lld MiB. macOS and driver reserve: %lld MiB.</key>
+	<string>GPU 預算：%lld MiB。macOS 和驅動程式程序預留記憶體：%lld MiB。</string>
+	<key>Game paused</key>
+	<string>遊戲已暫停</string>
+	<key>Games appear here after you play them in SteamOS.</key>
+	<string>在 SteamOS 中玩過的遊戲會顯示在這裏。</string>
+	<key>Games currently have %@ GiB. Enter a larger home capacity in GiB (up to 4096). This never shrinks or deletes your disk. APFS / Mac OS Extended use space only as SteamOS writes; exFAT takes the full added size immediately and needs that much free space.</key>
+	<string>當前遊戲分區的容量爲 %@ GiB。請輸入更大的 home 分區容量，單位爲 GiB（最大 4096）。此操作不會縮小或刪除磁碟。APFS / Mac OS Extended 僅在 SteamOS 寫入數據時佔用空間；exFAT 會立即佔用全部新增空間，因此需要相應的可用空間。</string>
+	<key>General</key>
+	<string>一般</string>
+	<key>Generate Password</key>
+	<string>生成密碼</string>
+	<key>GitHub's request limit for this network is reached; try again later.</key>
+	<string>此網絡已達到 GitHub 的請求次數限制；請稍後重試。</string>
+	<key>Grab Pointer (Ctrl+Cmd+G; Ctrl+Option releases)</key>
+	<string>捕獲指針（Ctrl+Cmd+G；Ctrl+Option 釋放）</string>
+	<key>Grow Disk</key>
+	<string>擴展磁碟</string>
+	<key>Grow Disk…</key>
+	<string>擴展磁碟…</string>
+	<key>Grow SteamOS Disk</key>
+	<string>擴展 SteamOS 磁碟</string>
+	<key>Grow and Restart</key>
+	<string>擴展並重啓</string>
+	<key>Guest audio device (virtio-snd → CoreAudio).</key>
+	<string>客戶機音訊設備（virtio-snd → CoreAudio）。</string>
+	<key>Guest display follows the window size</key>
+	<string>客戶機顯示跟隨視窗大小</string>
+	<key>Guest pixels = window points (twice per side with Retina resolution); at least 800 × 500.</key>
+	<string>客戶機像素數 = 視窗點數（啟用 Retina 解析度時，每邊翻倍）；至少爲 800 × 500。</string>
+	<key>Help</key>
+	<string>說明</string>
+	<key>Hide</key>
+	<string>隱藏</string>
+	<key>Home partition (games, sparse)</key>
+	<string>home 分區（遊戲，稀疏文件）</string>
+	<key>I accept Valve's SteamOS license and the Steam Subscriber Agreement</key>
+	<string>我接受 Valve 的 SteamOS 許可和 Steam 訂戶協議</string>
+	<key>Include SteamOS logs (system journal, Steam/Proton logs)</key>
+	<string>包含 SteamOS 日誌（系統日誌、Steam/Proton 日誌）</string>
+	<key>Include a screenshot of the VM window</key>
+	<string>包含虛擬機視窗截圖</string>
+	<key>Include concealed (password manager) items</key>
+	<string>包含隱藏（密碼管理器）內容</string>
+	<key>Include launcher logs</key>
+	<string>包含啓動器日誌</string>
+	<key>Installing Steam update</key>
+	<string>正在安裝 Steam 更新</string>
+	<key>Invalid report server address: %@</key>
+	<string>報告服務器地址無效：%@</string>
+	<key>It was saved in %@. Try again later, or send that folder to the developers by email.</key>
+	<string>已儲存在 %@。請稍後重試，或通過電子郵件將該文件夾發送給開發者。</string>
+	<key>Keychain: %@</key>
+	<string>鑰匙串：%@</string>
+	<key>LAN Remote Play</key>
+	<string>區域網路 Remote Play</string>
+	<key>Let Steam Link discover this VM on the same subnet. Opens UDP 27031–27036 and TCP 27036–27037 on the Mac. Allow Local Network access; quit Mac Steam if it uses these ports.</key>
+	<string>允許 Steam Link 在同一子網發現此虛擬機。在 Mac 上開放 UDP 27031–27036 和 TCP 27036–27037 端口。請允許本地網絡訪問；若 Mac 版 Steam 佔用了這些端口，請先結束。</string>
+	<key>Little to upscale while Retina resolution is on.</key>
+	<string>開啟 Retina 解析度後，畫面幾乎無需再放大。</string>
+	<key>Loading Steam UI</key>
+	<string>正在加載 Steam 界面</string>
+	<key>Location</key>
+	<string>位置</string>
+	<key>Location of the new SteamOS disk</key>
+	<string>新 SteamOS 磁碟的位置</string>
+	<key>Log frame-pacing statistics</key>
+	<string>記錄幀節奏統計</string>
+	<key>Log: %@</key>
+	<string>日誌：%@</string>
+	<key>Login</key>
+	<string>登錄</string>
+	<key>Looked in:
+%@
+
+</key>
+	<string>已在以下位置查找：
+%@
+
+</string>
+	<key>Looking up SteamOS %@…</key>
+	<string>正在查找 SteamOS %@…</string>
+	<key>Low (10 ms)</key>
+	<string>低（10 毫秒）</string>
+	<key>Lower = less latency; Safe avoids crackling under load.</key>
+	<string>越低則延遲越小；“穩定”可避免高負載下的爆音。</string>
+	<key>Memory</key>
+	<string>記憶體</string>
+	<key>Mention this ID if you contact the developers about this problem.</key>
+	<string>聯繫開發者時請附上此 ID。</string>
+	<key>Mesa's Vulkan driver on Metal 4 (macOS 26 or newer). Faster than MoltenVK: Stellar Blade Demo runs at ~29 FPS instead of ~18 on an M1 Max.</key>
+	<string>Mesa 基於 Metal 4 的 Vulkan 驅動程式（macOS 26 或更高版本）。比 MoltenVK 更快：在 M1 Max 上，Stellar Blade Demo 約爲 29 FPS，而 MoltenVK 約爲 18 FPS。</string>
+	<key>Metal 3 · macOS 15+</key>
+	<string>Metal 3 · macOS 15+</string>
+	<key>Metal 4 · macOS 26+</key>
+	<string>Metal 4 · macOS 26+</string>
+	<key>Metal Performance HUD</key>
+	<string>Metal 效能 HUD</string>
+	<key>MetalFX super resolution</key>
+	<string>MetalFX 超解析度</string>
+	<key>Microphone: the guest records from the macOS default input; macOS asks for permission the first time.</key>
+	<string>麥克風：客戶機使用 macOS 的預設輸入設備錄音；首次使用時 macOS 會請求權限。</string>
+	<key>Minimize</key>
+	<string>最小化</string>
+	<key>More than this Mac's %lld performance cores. The extra vCPUs run on efficiency cores, which slows the guest down and leaves fewer cores for the Mac's GPU work.</key>
+	<string>超過此 Mac 的 %lld 個效能核心。額外的 vCPU 會在能效核心上運行，拖慢客戶機，並減少可用於 Mac GPU 相關工作的核心。</string>
+	<key>Mounting SteamOS (slot %@)…</key>
+	<string>正在掛載 SteamOS（插槽 %@）…</string>
+	<key>Mouse</key>
+	<string>滑鼠</string>
+	<key>Mute</key>
+	<string>靜音</string>
+	<key>Mute sound</key>
+	<string>靜音</string>
+	<key>Network</key>
+	<string>網絡</string>
+	<key>Never: your name, user or computer name, IP address, Steam account, game titles, files, or the SteamOS console.</key>
+	<string>絕不包含：你的姓名、用戶名或電腦名稱、IP 地址、Steam 賬戶、遊戲名稱、文件或 SteamOS 控制臺。</string>
+	<key>New</key>
+	<string>新</string>
+	<key>No SteamOS disk image</key>
+	<string>沒有 SteamOS 磁碟映像</string>
+	<key>No VM is running in this window.</key>
+	<string>此視窗中沒有正在執行的虛擬機。</string>
+	<key>No VM window is open.</key>
+	<string>沒有打開的虛擬機視窗。</string>
+	<key>No controller connected. Pair one in System Settings › Bluetooth or plug it in via USB.</key>
+	<string>未連接控制器。請在“系統設定 › 藍牙”中配對控制器，或通過 USB 連接。</string>
+	<key>No generated password for this disk (disks built with Docker use steamos).</key>
+	<string>此磁碟沒有生成的密碼（用 Docker 構建的磁碟使用 steamos）。</string>
+	<key>No release notes.</key>
+	<string>無更新說明。</string>
+	<key>Normal (20 ms)</key>
+	<string>普通（20 毫秒）</string>
+	<key>Not available here: %@; MoltenVK is used.</key>
+	<string>此處不可用：%@；將使用 MoltenVK。</string>
+	<key>Not supported on this Mac's GPU.</key>
+	<string>此 Mac 的 GPU 不支持。</string>
+	<key>OK</key>
+	<string>好</string>
+	<key>Off</key>
+	<string>關閉</string>
+	<key>Off by default: the picture may show your Steam account name, friends or other personal information.</key>
+	<string>預設關閉：畫面可能顯示你的 Steam 賬號名、好友或其他個人信息。</string>
+	<key>Off: no port on the Mac and sshd masked in SteamOS. Turning it on generates a password for the user steamos (kept on, but unused, when SSH is off).</key>
+	<string>關閉：Mac 上不開放端口，SteamOS 中停用 sshd。開啟後會爲 steamos 用戶生成密碼（關閉 SSH 後保留密碼，但不使用）。</string>
+	<key>Off: no virtio-net / gvproxy (offline guest, also no SSH).</key>
+	<string>關閉：不啟用 virtio-net / gvproxy（客戶機離線，也無法使用 SSH）。</string>
+	<key>Off: one guest pixel per point, scaled up to Retina screens (MetalFX super resolution can sharpen it). On: the guest renders at the screen's full pixel density.</key>
+	<string>關閉：每個點對應一個客戶機像素，放大以適應 Retina 螢幕（可用 MetalFX 超解析度銳化）。開啟：客戶機按螢幕的完整像素密度渲染。</string>
+	<key>Off: the guest keeps its resolution and the picture is scaled to the window.</key>
+	<string>關閉：客戶機保持解析度，畫面縮放到視窗。</string>
+	<key>On top of the guest's own volume.</key>
+	<string>在客戶機自身音量的基礎上調整。</string>
+	<key>Open Releases Page</key>
+	<string>打開發佈頁面</string>
+	<key>Open in full screen</key>
+	<string>以全螢幕方式打開</string>
+	<key>Opening Steam</key>
+	<string>正在打開 Steam</string>
+	<key>Output device</key>
+	<string>輸出設備</string>
+	<key>Pass a DualSense through</key>
+	<string>直通 DualSense</string>
+	<key>Password</key>
+	<string>密碼</string>
+	<key>Password applied in SteamOS</key>
+	<string>密碼已在 SteamOS 中生效</string>
+	<key>Password for user steamos (optional)</key>
+	<string>steamos 用戶密碼（可選）</string>
+	<key>Password will apply on next start</key>
+	<string>密碼將在下次啓動時生效</string>
+	<key>Passwords that apps like 1Password, Bitwarden or KeePassXC mark as concealed or transient stay on the Mac unless this is on.</key>
+	<string>1Password、Bitwarden 或 KeePassXC 等應用標記爲隱藏或臨時的密碼會留在 Mac 上，除非開啟此項。</string>
+	<key>Paste</key>
+	<string>粘貼</string>
+	<key>Pause the game</key>
+	<string>暫停遊戲</string>
+	<key>Per game</key>
+	<string>按遊戲</string>
+	<key>Per-game mouse settings and the chosen disk image are forgotten too.</key>
+	<string>每個遊戲的滑鼠設定和所選磁碟映像也會被清除。</string>
+	<key>Physical size source</key>
+	<string>物理尺寸來源</string>
+	<key>Powered off</key>
+	<string>已關機</string>
+	<key>Quit</key>
+	<string>結束</string>
+	<key>Quit FX Steam Launcher</key>
+	<string>結束 FX Steam Launcher</string>
+	<key>Quitting FX Steam Launcher shuts SteamOS down: it resumes and shuts down cleanly. The suspended state (and a running game's unsaved progress) is not kept.</key>
+	<string>結束 FX Steam Launcher 會關閉 SteamOS：它會先恢復運行，再正常關機。掛起狀態（以及正在執行的遊戲中未儲存的進度）不會保留。</string>
+	<key>Raw GPT disk image (e.g. steamos.img). It stays where it is.</key>
+	<string>原始 GPT 磁碟映像（如 steamos.img）。會保留在原位置。</string>
+	<key>Reading the bundle manifest…</key>
+	<string>正在讀取軟體包清單…</string>
+	<key>Redo</key>
+	<string>重做</string>
+	<key>Refresh rate</key>
+	<string>刷新率</string>
+	<key>Regenerate Password</key>
+	<string>重新生成密碼</string>
+	<key>Release notes</key>
+	<string>更新說明</string>
+	<key>Release the mouse</key>
+	<string>釋放滑鼠</string>
+	<key>Released %@</key>
+	<string>發佈於 %@</string>
+	<key>Remind Me Later</key>
+	<string>稍後提醒</string>
+	<key>Report ID:</key>
+	<string>報告 ID：</string>
+	<key>Report a Problem</key>
+	<string>報告問題</string>
+	<key>Report a Problem…</key>
+	<string>報告問題…</string>
+	<key>Report it with the logs of this session so the developers can look into it.</key>
+	<string>請附上本次會話的日誌進行報告，以便開發者排查。</string>
+	<key>Report sent — thank you!</key>
+	<string>報告已發送 — 謝謝！</string>
+	<key>Reports go to the developers' own Sentry server (sentry.fxgam.es). Turn this off any time in Settings &gt; General, or for one run with --no-crash-reports / STEAMAC_SENTRY=0.</key>
+	<string>報告會發送到開發者自己的 Sentry 服務器（sentry.fxgam.es）。可隨時在“設定 &gt; 一般”中關閉，或使用 --no-crash-reports / STEAMAC_SENTRY=0 爲單次運行關閉。</string>
+	<key>Report…</key>
+	<string>報告…</string>
+	<key>Reset</key>
+	<string>還原</string>
+	<key>Reset All Settings…</key>
+	<string>還原所有設定…</string>
+	<key>Reset all FX Steam Launcher settings to their defaults?</key>
+	<string>將所有 FX Steam Launcher 設定還原爲預設值？</string>
+	<key>Restart VM</key>
+	<string>重啓虛擬機</string>
+	<key>Restart VM to apply</key>
+	<string>重啓虛擬機以應用</string>
+	<key>Restarting</key>
+	<string>正在重啓</string>
+	<key>Restarting Steam</key>
+	<string>正在重啓 Steam</string>
+	<key>Restarting SteamOS…</key>
+	<string>正在重啓 SteamOS…</string>
+	<key>Restarting the VM…</key>
+	<string>正在重啓虛擬機…</string>
+	<key>Restarting…</key>
+	<string>正在重啓…</string>
+	<key>Resume</key>
+	<string>恢復</string>
+	<key>Resuming…</key>
+	<string>正在恢復…</string>
+	<key>Retina resolution</key>
+	<string>Retina 解析度</string>
+	<key>Retry</key>
+	<string>重試</string>
+	<key>Reveal in Finder</key>
+	<string>在訪達中顯示</string>
+	<key>SSH port</key>
+	<string>SSH 端口</string>
+	<key>Safe (60 ms)</key>
+	<string>穩定（60 毫秒）</string>
+	<key>Select All</key>
+	<string>全選</string>
+	<key>Send</key>
+	<string>發送</string>
+	<key>Send crash reports and diagnostics</key>
+	<string>發送當機報告和診斷信息</string>
+	<key>Sending the report…</key>
+	<string>正在發送報告…</string>
+	<key>Session started</key>
+	<string>會話已啓動</string>
+	<key>Sets the guest's UI scale. Auto = the window's real size on this Mac's screen.</key>
+	<string>設定客戶機界面的縮放比例。自動 = 視窗在此 Mac 螢幕上的實際尺寸。</string>
+	<key>Setting up SteamOS (first start)…</key>
+	<string>正在設定 SteamOS（首次啓動）…</string>
+	<key>Settings…</key>
+	<string>設定…</string>
+	<key>Share clipboard with SteamOS</key>
+	<string>與 SteamOS 共享剪貼板</string>
+	<key>Short fade; the volume comes back when you switch back.</key>
+	<string>音量會短暫淡出；切回視窗時恢復。</string>
+	<key>Show</key>
+	<string>顯示</string>
+	<key>Show Boot Progress</key>
+	<string>顯示啓動進度</string>
+	<key>Show Metal Performance HUD (Ctrl+Cmd+P)</key>
+	<string>顯示 Metal 效能 HUD（Ctrl+Cmd+P）</string>
+	<key>Show What Will Be Sent</key>
+	<string>查看將發送的內容</string>
+	<key>Show boot and shutdown overlay</key>
+	<string>顯示啓動和關機進度界面</string>
+	<key>Show indicator when the GPU goes idle</key>
+	<string>GPU 空閒時顯示提示</string>
+	<key>Shut Down SteamOS</key>
+	<string>關閉 SteamOS</string>
+	<key>Shut down SteamOS</key>
+	<string>關閉 SteamOS</string>
+	<key>Shutting down…</key>
+	<string>正在關機…</string>
+	<key>Since %@ · %@</key>
+	<string>自 %@ 起 · %@</string>
+	<key>Size at the default window size</key>
+	<string>預設視窗尺寸下的尺寸</string>
+	<key>Skip This Version</key>
+	<string>跳過此版本</string>
+	<key>So the developers can reply. Remembered on this Mac.</key>
+	<string>以便開發者回覆。此 Mac 會記住該地址。</string>
+	<key>Software Update</key>
+	<string>軟體更新</string>
+	<key>Some changes apply on the next start.</key>
+	<string>部分更改將在下次啓動時生效。</string>
+	<key>Sound</key>
+	<string>聲音</string>
+	<key>Sound was off when this VM started.</key>
+	<string>此虛擬機啓動時聲音處於關閉狀態。</string>
+	<key>Start SteamOS to finish growing the home partition and filesystem.</key>
+	<string>啓動 SteamOS 以完成 home 分區和文件系統的擴充容量。</string>
+	<key>Starting Steam</key>
+	<string>正在啓動 Steam</string>
+	<key>Starting Steam client</key>
+	<string>正在啓動 Steam 客戶端</string>
+	<key>Starting Steam session…</key>
+	<string>正在啓動 Steam 會話…</string>
+	<key>Starting SteamOS services…</key>
+	<string>正在啓動 SteamOS 服務…</string>
+	<key>Starting virtual machine…</key>
+	<string>正在啓動虛擬機…</string>
+	<key>Starting…</key>
+	<string>正在啓動…</string>
+	<key>Steam Deck client</key>
+	<string>Steam Deck 客戶端</string>
+	<key>Steam Deck client (beta)</key>
+	<string>Steam Deck 客戶端（測試版）</string>
+	<key>Steam Deck, 16:10</key>
+	<string>Steam Deck，16:10</string>
+	<key>Steam Frame client</key>
+	<string>Steam Frame 客戶端</string>
+	<key>Steam Subscriber Agreement</key>
+	<string>Steam 訂戶協議</string>
+	<key>Steam UI and desktop</key>
+	<string>Steam 界面和桌面</string>
+	<key>Steam client</key>
+	<string>Steam 客戶端</string>
+	<key>Steam is ready</key>
+	<string>Steam 已就緒</string>
+	<key>Steam update downloaded</key>
+	<string>Steam 更新已下載</string>
+	<key>Steam update installed</key>
+	<string>Steam 更新已安裝</string>
+	<key>SteamOS End User License Agreement</key>
+	<string>SteamOS 最終用戶許可協議</string>
+	<key>SteamOS and the Steam client are Valve's software. Valve licenses them for personal use only and forbids redistributing them; Steam itself is governed by the Steam Subscriber Agreement.</key>
+	<string>SteamOS 和 Steam 客戶端是 Valve 的軟體。Valve 僅許可個人使用，禁止再分發；Steam 本身受 Steam 訂戶協議約束。</string>
+	<key>SteamOS branch</key>
+	<string>SteamOS 分支</string>
+	<key>SteamOS disk could not be grown</key>
+	<string>無法擴展 SteamOS 磁碟</string>
+	<key>SteamOS disk enlarged</key>
+	<string>SteamOS 磁碟已擴展</string>
+	<key>SteamOS gets a gamepad while a controller is connected.</key>
+	<string>連接控制器時，SteamOS 會獲得一個遊戲控制器。</string>
+	<key>SteamOS gets the Mac's time zone and 12/24-hour format at every start, until you change each in SteamOS or Steam.</key>
+	<string>每次啓動時，SteamOS 都會使用 Mac 的時區和 12/24 小時制，直到你在 SteamOS 或 Steam 中分別更改它們。</string>
+	<key>SteamOS is already running</key>
+	<string>SteamOS 已在運行</string>
+	<key>SteamOS is not responding…</key>
+	<string>SteamOS 無響應…</string>
+	<key>SteamOS is not running: only its console log of this session is included.</key>
+	<string>SteamOS 未運行：僅包含本次會話的控制臺日誌。</string>
+	<key>SteamOS is sleeping</key>
+	<string>SteamOS 正在睡眠</string>
+	<key>SteamOS is suspended</key>
+	<string>SteamOS 已掛起</string>
+	<key>SteamOS must be stopped. The partition and filesystem grow on its next boot.</key>
+	<string>SteamOS 必須處於停止狀態。分區和文件系統將在下次啓動時擴充容量。</string>
+	<key>SteamOS raw GPT disk, used in place (never copied). If Steam reports not enough space, Grow Disk… adds room for games without recreating it. Free space on the Mac does not automatically increase SteamOS's capacity.</key>
+	<string>SteamOS 原始 GPT 磁碟，直接在原位置使用（不會拷貝）。若 Steam 提示空間不足，可用“擴展磁碟…”增加遊戲空間，無需重新創建磁碟。Mac 上的可用空間不會自動增加 SteamOS 的容量。</string>
+	<key>SteamOS set up</key>
+	<string>SteamOS 設定完成</string>
+	<key>SteamOS shuts down cleanly and boots again with the new settings.</key>
+	<string>SteamOS 會正常關機，並使用新設定重新啓動。</string>
+	<key>SteamOS suspended</key>
+	<string>SteamOS 已掛起</string>
+	<key>SteamOS suspended — FX Steam Launcher</key>
+	<string>SteamOS 已掛起 — FX Steam Launcher</string>
+	<key>SteamOS will shut down normally, the image will be enlarged while it is stopped, then restart.</key>
+	<string>SteamOS 會正常關機，在停止期間擴展映像，然後重新啓動。</string>
+	<key>Stick deadzone</key>
+	<string>搖桿死區</string>
+	<key>Still working — loading or compiling shaders…</key>
+	<string>仍在工作 — 正在加載或編譯着色器…</string>
+	<key>Stop</key>
+	<string>停止</string>
+	<key>Stop creating the disk?</key>
+	<string>停止創建磁碟？</string>
+	<key>Stopped — Create continues where it left off</key>
+	<string>已停止 — 點按“創建”可從上次停止的位置繼續</string>
+	<key>Suspend</key>
+	<string>掛起</string>
+	<key>Suspend (keep running in the background)</key>
+	<string>掛起（在後臺保留運行狀態）</string>
+	<key>Suspend freezes SteamOS and the running game at once and keeps them in memory; click the Dock icon or Resume in the menu bar to continue where you left off. Suspended state is kept while FX Steam Launcher is running: quitting the app or restarting the Mac shuts SteamOS down.</key>
+	<string>掛起會同時凍結 SteamOS 和正在執行的遊戲，並將它們保留在記憶體中；點按程序塢圖標或菜單欄中的“恢復”，即可從上次停止的位置繼續。掛起狀態僅在 FX Steam Launcher 運行期間保留：結束應用或重新啓動 Mac 會關閉 SteamOS。</string>
+	<key>Suspended state is kept while FX Steam Launcher is running.</key>
+	<string>掛起狀態僅在 FX Steam Launcher 運行期間保留。</string>
+	<key>Swap A/B and X/Y</key>
+	<string>互換 A/B 與 X/Y</string>
+	<key>Switching downloads the other client (about 1 GB) when Steam starts.</key>
+	<string>切換後 Steam 啓動時會下載另一個客戶端（約 1 GB）。</string>
+	<key>Switching makes Steam and games rebuild their shader caches.</key>
+	<string>切換後 Steam 和遊戲將重建着色器緩存。</string>
+	<key>System default</key>
+	<string>系統預設</string>
+	<key>System default (%@)</key>
+	<string>系統預設（%@）</string>
+	<key>System default follows changes in macOS.</key>
+	<string>系統預設跟隨 macOS 的變化。</string>
+	<key>Taking a screenshot of the VM window…</key>
+	<string>正在截取虛擬機視窗畫面…</string>
+	<key>Text and images copied on the Mac can be pasted in SteamOS (Ctrl+V) and the other way round; up to 1 MB of text and 16 MB images. Desktop Mode included.</key>
+	<string>在 Mac 上拷貝的文本和圖像可粘貼到 SteamOS（Ctrl+V），反之亦然；文本最大 1 MB，圖像最大 16 MB。也支持桌面模式。</string>
+	<key>The Steam Deck client beta (steamdeck_publicbeta). Standard sign-in with an on-screen QR code.</key>
+	<string>Steam Deck 客戶端測試版（steamdeck_publicbeta）。通過螢幕上的二維碼按常規方式登錄。</string>
+	<key>The SteamOS console, this boot's system journal, coredumps, dmesg, Steam client logs and Proton logs. Steam IDs, account names and email addresses are removed where recognisable.</key>
+	<string>SteamOS 控制臺、本次啓動的系統日誌、核心轉儲、dmesg、Steam 客戶端日誌和 Proton 日誌。可識別的 Steam ID、賬戶名稱和電子郵件地址會被移除。</string>
+	<key>The guest gets the screen's full pixel density (2 × 2 pixels per point on Retina screens), with the UI scaled to the same size: sharp text, but games draw 4× the pixels. Recommended instead: leave this off and turn on MetalFX super resolution, which upscales the guest 2× to the Retina screen at a fraction of the cost.</key>
+	<string>客戶機使用螢幕的完整像素密度（Retina 螢幕上每個點對應 2 × 2 像素），界面縮放至相同尺寸：文字清晰，但遊戲需渲染 4 倍的像素。建議關閉此項並開啟 MetalFX 超解析度，以較低開銷將客戶機畫面放大 2 倍以適應 Retina 螢幕。</string>
+	<key>The image chosen in Settings is not readable:
+%@
+
+</key>
+	<string>在“設定”中選擇的映像無法讀取：
+%@
+
+</string>
+	<key>The installed libkrun has no %@ (rebuild host/libkrun and reinstall the launcher).</key>
+	<string>已安裝的 libkrun 缺少 %@（請重新構建 host/libkrun 並重新安裝啓動器）。</string>
+	<key>The launcher's last ~200 log lines (launcher, MoltenVK, libkrun and virglrenderer messages; home folder paths shortened to ~) and the boot stages.</key>
+	<string>啓動器最近約 200 行日誌（啓動器、MoltenVK、libkrun 和 virglrenderer 消息；個人文件夾路徑縮寫爲 ~）及啓動階段。</string>
+	<key>The password could not be read from the Keychain.</key>
+	<string>無法從鑰匙串讀取密碼。</string>
+	<key>The public ARM64 Steam Deck client (steamdeck_stable). Standard sign-in with an on-screen QR code.</key>
+	<string>公開發佈的 ARM64 Steam Deck 客戶端（steamdeck_stable）。通過螢幕上的二維碼按常規方式登錄。</string>
+	<key>The report could not be sent</key>
+	<string>報告發送失敗</string>
+	<key>The report is too large for the server even after shrinking it.</key>
+	<string>即使縮減後，報告仍超出服務器的大小限制。</string>
+	<key>The server answered HTTP %lld.</key>
+	<string>服務器返回 HTTP %lld。</string>
+	<key>The server answered HTTP %lld: %@</key>
+	<string>服務器返回 HTTP %lld：%@</string>
+	<key>The server is busy (HTTP 429); try again in %@ s.</key>
+	<string>服務器繁忙（HTTP 429）；請在 %@ 秒後重試。</string>
+	<key>The server is busy (HTTP 429); try again later.</key>
+	<string>服務器繁忙（HTTP 429）；請稍後重試。</string>
+	<key>The virtual machine ended without being asked to (%@).</key>
+	<string>虛擬機意外終止（%@）。</string>
+	<key>This SteamOS build is signed with Valve's development key (steamos-dev-images) and can't be verified; choose stable or try again later.</key>
+	<string>此 SteamOS 構建使用 Valve 的開發密鑰（steamos-dev-images）簽名，無法驗證；請選擇 stable 或稍後重試。</string>
+	<key>This boot has no sound device.</key>
+	<string>本次啓動未配置聲音設備。</string>
+	<key>This development build never checks at startup; FX Steam Launcher &gt; Check for Updates… does.</key>
+	<string>此開發版不會在啓動時檢查更新；可通過“FX Steam Launcher &gt; 檢查更新…”檢查。</string>
+	<key>This libkrun has no sound support (SND=1).</key>
+	<string>此 libkrun 不支持聲音（SND=1）。</string>
+	<key>This session's launcher, libkrun, virglrenderer and MoltenVK messages and perf/stall lines (last ~2 MB; home folder paths shortened to ~, your user and computer names removed).</key>
+	<string>本次會話的啓動器、libkrun、virglrenderer 和 MoltenVK 消息及 perf/stall 行（最近約 2 MB；個人文件夾路徑縮寫爲 ~，移除你的用戶名和電腦名稱）。</string>
+	<key>Toggle Full Screen (Ctrl+Cmd+F)</key>
+	<string>切換全螢幕（Ctrl+Cmd+F）</string>
+	<key>Undo</key>
+	<string>撤銷</string>
+	<key>Unknown game</key>
+	<string>未知遊戲</string>
+	<key>Unreadable answer from the server.</key>
+	<string>無法讀取服務器響應。</string>
+	<key>Update Available: %@…</key>
+	<string>有可用更新：%@…</string>
+	<key>Use Default</key>
+	<string>使用預設</string>
+	<key>Use Existing Disk…</key>
+	<string>使用已有磁碟…</string>
+	<key>Use the Mac's time zone and clock format</key>
+	<string>使用 Mac 的時區和時鐘格式</string>
+	<key>User</key>
+	<string>用戶</string>
+	<key>VM CPU %@ cores</key>
+	<string>虛擬機 CPU 佔用 %@ 核</string>
+	<key>VM CPU %@ cores · guest alive</key>
+	<string>虛擬機 CPU 佔用 %@ 核 · 客戶機仍在響應</string>
+	<key>VM process crashed (%@)</key>
+	<string>虛擬機進程當機（%@）</string>
+	<key>VM process exited with status %d</key>
+	<string>虛擬機進程已結束，狀態碼爲 %d</string>
+	<key>VM process killed (SIGKILL — memory pressure or force quit)</key>
+	<string>虛擬機進程被終止（SIGKILL — 記憶體壓力或強制結束）</string>
+	<key>Valve's ARM64 client for Steam Frame (a beta for a headset not yet released). Until an account is signed in with Remember me, the Steam Deck client shows the sign-in QR code.</key>
+	<string>Valve 爲 Steam Frame 提供的 ARM64 客戶端（尚未發佈的頭顯的測試版）。在登錄賬戶並勾選“記住我”之前，使用 Steam Deck 客戶端顯示登錄二維碼。</string>
+	<key>Verifying Steam installation</key>
+	<string>正在驗證 Steam 安裝</string>
+	<key>Verifying the signed bundle…</key>
+	<string>正在驗證已簽名的軟體包…</string>
+	<key>Versions and setup: app, macOS, libkrun/virglrenderer/MoltenVK builds, kernel, SteamOS build, Mac model, GPU, VM CPUs/RAM/display mode, game App IDs.</key>
+	<string>版本與配置：應用、macOS、libkrun/virglrenderer/MoltenVK 構建、內核、SteamOS 構建、Mac 機型、GPU、虛擬機 CPU/記憶體/顯示模式、遊戲 App ID。</string>
+	<key>View</key>
+	<string>顯示</string>
+	<key>Virtual CPUs</key>
+	<string>虛擬 CPU</string>
+	<key>Virtual controller</key>
+	<string>虛擬控制器</string>
+	<key>Volume</key>
+	<string>音量</string>
+	<key>Vulkan driver</key>
+	<string>Vulkan 驅動程式</string>
+	<key>Vulkan on Metal 3 through MoltenVK with steamac's patches (macOS 15 or newer).</key>
+	<string>通過含 steamac 補丁的 MoltenVK 在 Metal 3 上實現 Vulkan（macOS 15 或更高版本）。</string>
+	<key>Waiting for SteamOS to draw…</key>
+	<string>等待 SteamOS 繪製…</string>
+	<key>Waking up…</key>
+	<string>正在喚醒…</string>
+	<key>What happened?</key>
+	<string>發生了什麼？</string>
+	<key>What is sent</key>
+	<string>發送內容</string>
+	<key>What you did, what you expected and what happened instead (game, settings, since when)…</key>
+	<string>你做了什麼、期望的結果、實際發生的情況（遊戲、設定、何時開始）…</string>
+	<key>When FX Steam Launcher is in the background</key>
+	<string>當 FX Steam Launcher 在後臺時</string>
+	<key>When a DualSense appears as a DualSense, SteamOS gets the controller itself: touchpad, motion sensors, lightbar, mute button and its light, rumble and adaptive triggers, as on a Steam Deck. Swap and deadzone below do not apply to it.</key>
+	<string>當 DualSense 在 SteamOS 中顯示爲 DualSense 時，SteamOS 會直接獲得控制器本身：觸摸板、運動傳感器、光條、靜音按鈕及其指示燈、振動和自適應扳機，與 Steam Deck 上一樣。下方的按鍵互換和死區設定對它無效。</string>
+	<key>When closing the window</key>
+	<string>關閉視窗時</string>
+	<key>While a game has focus, a click captures the pointer (relative motion for mouse-look).</key>
+	<string>遊戲獲得焦點時，點按即可捕獲指針（通過相對移動控制視角）。</string>
+	<key>Window</key>
+	<string>視窗</string>
+	<key>Writing rootfs-A and rootfs-B…</key>
+	<string>正在寫入 rootfs-A 和 rootfs-B…</string>
+	<key>Writing the first-boot payload…</key>
+	<string>正在寫入首次啓動所需的數據…</string>
+	<key>Xbox 360 controller</key>
+	<string>Xbox 360 控制器</string>
+	<key>You're up to date</key>
+	<string>已是最新版本</string>
+	<key>another SteamOS disk is being created with the download cache %@: wait for it to finish or cancel it</key>
+	<string>另一個 SteamOS 磁碟正在使用下載緩存 %@ 創建：請等待創建完成或取消該操作</string>
+	<key>applies now</key>
+	<string>立即生效</string>
+	<key>applies on next start</key>
+	<string>下次啓動時生效</string>
+	<key>auto-capture in games off</key>
+	<string>遊戲中自動捕獲已關閉</string>
+	<key>auto-capture in games on</key>
+	<string>遊戲中自動捕獲已開啟</string>
+	<key>auto-capture off for %@</key>
+	<string>已爲 %@ 關閉自動捕獲</string>
+	<key>auto-capture off for %@ (Ctrl+Cmd+G captures)</key>
+	<string>已爲 %@ 關閉自動捕獲（Ctrl+Cmd+G 手動捕獲）</string>
+	<key>auto-capture on for %@</key>
+	<string>已爲 %@ 開啟自動捕獲</string>
+	<key>black picture %lld s</key>
+	<string>黑屏 %lld 秒</string>
+	<key>click to capture the mouse</key>
+	<string>點按以捕獲滑鼠</string>
+	<key>click to capture the mouse (Ctrl+Option releases)</key>
+	<string>點按以捕獲滑鼠（Ctrl+Option 釋放）</string>
+	<key>display off %lld s</key>
+	<string>顯示已關閉 %lld 秒</string>
+	<key>drives the virtual pad</key>
+	<string>驅動程式虛擬控制器</string>
+	<key>enter a whole number of GiB</key>
+	<string>請輸入以 GiB 爲單位的整數</string>
+	<key>game %@</key>
+	<string>遊戲 %@</string>
+	<key>guest alive</key>
+	<string>客戶機仍在響應</string>
+	<key>guest not responding for %lld s</key>
+	<string>客戶機已 %lld 秒無響應</string>
+	<key>home size must be 8..4096 GiB</key>
+	<string>home 分區容量必須爲 8 至 4096 GiB</string>
+	<key>memory unknown</key>
+	<string>記憶體未知</string>
+	<key>mm</key>
+	<string>mm</string>
+	<key>mouse captured — Ctrl+Option releases</key>
+	<string>滑鼠已捕獲 — Ctrl+Option 釋放</string>
+	<key>muted</key>
+	<string>已靜音</string>
+	<key>needs macOS 26 or newer (Metal 4)</key>
+	<string>需要 macOS 26 或更高版本（Metal 4）</string>
+	<key>no disk image</key>
+	<string>無磁碟映像</string>
+	<key>no frame %lld s</key>
+	<string>已 %lld 秒無畫面</string>
+	<key>no permission to create %@: choose a folder you can write to</key>
+	<string>無權創建 %@：請選擇可寫入的文件夾</string>
+	<key>no permission to write in %@: choose a folder you can write to, or allow writing in Finder → Get Info → Sharing &amp; Permissions</key>
+	<string>無權在 %@ 中寫入：請選擇可寫入的文件夾，或在“訪達 → 顯示簡介 → 共享與權限”中允許寫入</string>
+	<key>none</key>
+	<string>無</string>
+	<key>not a SteamOS disk</key>
+	<string>不是 SteamOS 磁碟</string>
+	<key>not enough free space for the download cache: %@ GB needed in %@, %@ GB free</key>
+	<string>下載緩存空間不足：%2$@ 中需要 %1$@ GB，可用空間爲 %3$@ GB</string>
+	<key>not enough free space on exFAT: %@ GB needed on %@, %@ GB free. exFAT stores the full disk size (no sparse files); choose a smaller home size or an APFS volume</key>
+	<string>exFAT 上的可用空間不足：%2$@ 上需要 %1$@ GB，可用空間爲 %3$@ GB。exFAT 會存儲完整磁碟大小（不支持稀疏文件）；請選擇更小的 home 分區容量或 APFS 宗卷</string>
+	<key>not enough free space: %@ GB needed on the volume of %@, %@ GB free</key>
+	<string>可用空間不足：%2$@ 所在宗卷需要 %1$@ GB，可用空間爲 %3$@ GB</string>
+	<key>not included in this build (%@)</key>
+	<string>此構建未包含（%@）</string>
+	<key>overridden by command line (%@)</key>
+	<string>已被命令行覆蓋（%@）</string>
+	<key>paused</key>
+	<string>已暫停</string>
+	<key>pointer follows the Mac cursor 1:1 (fixed)</key>
+	<string>指針與 Mac 光標 1:1 跟隨（固定）</string>
+	<key>pt</key>
+	<string>pt</string>
+	<key>restarting… (close to force quit)</key>
+	<string>正在重啓…（關閉則強制結束）</string>
+	<key>selftest done</key>
+	<string>自檢完成</string>
+	<key>shutting down… (close again to force quit)</key>
+	<string>正在關機…（再次關閉則強制結束）</string>
+	<key>sleeping — click to wake</key>
+	<string>睡眠中 — 點按以喚醒</string>
+	<key>the SteamOS disk %@ is in use by another FX Steam Launcher (or steamac-vm). Quit it first: two VMs writing one disk corrupt its file systems.</key>
+	<string>SteamOS 磁碟 %@ 正被另一個 FX Steam Launcher（或 steamac-vm）使用。請先結束它：兩個虛擬機同時寫入同一磁碟會損壞其文件系統。</string>
+	<key>the disk selected for growth is no longer the next boot's writable disk</key>
+	<string>所選的待擴展磁碟已不再是下次啓動時使用的可寫入磁碟</string>
+	<key>the new home size must be larger than its current %@ GiB (disks cannot be shrunk)</key>
+	<string>新的 home 分區容量必須大於當前的 %@ GiB（磁碟無法縮小）</string>
+	<key>the selected SteamOS disk has changed; choose its size again</key>
+	<string>所選 SteamOS 磁碟已更改；請重新選擇其容量</string>
+	<key>this image already has room for that home size; start SteamOS to finish growing it</key>
+	<string>此映像已能容納該 home 分區容量；請啓動 SteamOS 以完成擴充容量</string>
+	<key>validating %@%% · %@ of %@ GB · %@ MB/s</key>
+	<string>正在驗證 %@%% · %@ / %@ GB · %@ MB/s</string>
+	<key>waiting (%lld s)</key>
+	<string>等待中（%lld 秒）</string>
+	<key>you@example.com</key>
+	<string>you@example.com</string>
+</dict>
+</plist>

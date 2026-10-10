@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>在啟用區域網路 Remote Play 時，發現本地網絡上的 Steam Link 和 Remote Play 設備，並將其連接到 SteamOS 虛擬機中的 Steam。</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>SteamOS 虛擬機在其中的遊戲或 Steam 語音聊天使用麥克風時進行錄音。</string>
+</dict>
+</plist>

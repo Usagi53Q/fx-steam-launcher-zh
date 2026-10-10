@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# FX Steam Launcher 简体中文汉化补丁 一键卸载与还原脚本
+# FX Steam Launcher 汉化补丁 一键卸载与还原脚本
 # ==============================================================================
 
 set -e
@@ -15,9 +15,11 @@ CYAN="\033[36m"
 RESET="\033[0m"
 
 APP_PATH="/Applications/FX Steam Launcher.app"
+RESOURCES_DIR="${APP_PATH}/Contents/Resources"
 TARGET_DIR="${APP_PATH}/Contents/MacOS"
 TARGET_BIN="${TARGET_DIR}/steamac-vm"
 BACKUP_BIN="${TARGET_DIR}/steamac-vm.orig"
+BUNDLE_ID="es.fxgam.steamac"
 
 echo -e "${CYAN}${BOLD}"
 echo "╔══════════════════════════════════════════════════════════════════╗"
@@ -32,31 +34,31 @@ if [[ ! -d "$APP_PATH" ]]; then
 fi
 
 # 2. 检查是否有运行中的实例
-if pgrep -f "steamac-vm" >/dev/null 2>&1 || pgrep -f "FX Steam Launcher" >/dev/null 2>&1; then
+if pgrep -x "steamac-vm" >/dev/null 2>&1 || [[ "$(osascript -e 'application "FX Steam Launcher" is running' 2>/dev/null)" == "true" ]]; then
     echo -e "${YELLOW}⚠ 检测到 FX Steam Launcher 正在运行，正在退出...${RESET}"
     osascript -e 'quit app "FX Steam Launcher"' >/dev/null 2>&1 || true
     sleep 2
 fi
 
-# 3. 检查原版备份文件
-echo -e "${BLUE}▶ 正在检查官方原版备份文件...${RESET}"
-if [[ ! -f "$BACKUP_BIN" ]]; then
-    echo -e "${RED}✘ 未找到官方原版备份文件: ${BACKUP_BIN}${RESET}"
-    echo -e "${YELLOW}提示：如果备份文件已遗失，可直接从官方 Releases 页面重新下载覆盖安装应用程序：${RESET}"
-    echo -e "      👉 官方发布页: https://github.com/fxgl/steamac/releases"
-    exit 1
+# 3. 还原系统语言绑定
+echo -e "${BLUE}▶ 正在重置应用语言设置为跟随系统默认...${RESET}"
+defaults delete "${BUNDLE_ID}" AppleLanguages 2>/dev/null || true
+
+# 4. 若存在备份二进制，恢复原版
+if [[ -f "$BACKUP_BIN" ]]; then
+    echo -e "${BLUE}▶ 正在恢复官方原版核心二进制...${RESET}"
+    cp -f "$BACKUP_BIN" "$TARGET_BIN"
+    rm -f "$BACKUP_BIN"
+    chmod +x "$TARGET_BIN"
+    xattr -cr "$APP_PATH" 2>/dev/null || true
+    codesign --force --sign - "$TARGET_BIN" >/dev/null 2>&1 || true
 fi
 
-# 4. 执行还原
-echo -e "${BLUE}▶ 正在恢复官方原版英文核心...${RESET}"
-cp -f "$BACKUP_BIN" "$TARGET_BIN"
-chmod +x "$TARGET_BIN"
-xattr -cr "$APP_PATH" 2>/dev/null || true
+# 5. 若添加过第三方繁体资源包，安全清理
+if [[ -d "${RESOURCES_DIR}/zh-Hant.lproj" ]]; then
+    rm -rf "${RESOURCES_DIR}/zh-Hant.lproj"
+fi
 
-# 重新签名原版程序
-echo -e "正在更新应用签名..."
-codesign --force --sign - "$TARGET_BIN" >/dev/null 2>&1 || true
-
-echo -e "\n${GREEN}${BOLD}✔ 官方原版已成功恢复！${RESET}"
-echo -e "FX Steam Launcher 现已还原为纯官方英文界面。"
+echo -e "\n${GREEN}${BOLD}✔ 官方原版状态已成功恢复！${RESET}"
+echo -e "FX Steam Launcher 现已还原为跟随系统默认语言的官方原版状态。"
 echo -e "随时可通过运行 ${CYAN}install.sh${RESET} 重新应用中文汉化。\n"
